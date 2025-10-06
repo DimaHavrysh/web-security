@@ -37,4 +37,15 @@ public class ItemRestController {
     public void deleteItem(@PathVariable String id) {
         itemService.deleteItem(id);
     }
+
+    @PutMapping("/{id}")
+    public Item updateItem(@PathVariable String id, @RequestBody Item updatedItem) {
+        Item existingItem = itemService.getItemById(id);
+        if (existingItem != null) {
+            existingItem.setTitle(updatedItem.getTitle());
+            existingItem.setAuthor(updatedItem.getAuthor());
+            return itemService.createItem(existingItem); // save()
+        }
+        return null;
+    }
 }
